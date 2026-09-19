@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}Learn {{ course.course_name }} - AI LearnHub{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="glass-card overflow-hidden">
+            <div class="bg-dark d-flex justify-content-center align-items-center position-relative" style="height: 450px;">
+                <div class="text-center text-white">
+                    <i class="fa-solid fa-play fa-4x mb-3 text-white-50"></i>
+                    <h4>Video Placeholder</h4>
+                    <p class="text-white-50">Course: {{ course.course_name }}</p>
+                </div>
+            </div>
+            
+            <div class="p-4">
+                <h3 class="fw-bold mb-3">{{ course.course_name }}</h3>
+                <ul class="nav nav-tabs border-bottom-0 mb-4" id="learningTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active fw-bold text-dark border-0 border-bottom border-primary border-3" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">Overview</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-bold text-muted border-0" id="qa-tab" data-bs-toggle="tab" data-bs-target="#qa" type="button" role="tab">Q&A</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-bold text-muted border-0" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab">Notes</button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="learningTabsContent">
+                    <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                        <h5 class="fw-bold mb-3">About this course</h5>
+                        <p class="text-muted" style="line-height: 1.8;">{{ course.description }}</p>
+                        
+                        <h5 class="fw-bold mt-4 mb-3">By the numbers</h5>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center text-muted">
+                                    <i class="fa-solid fa-signal me-2"></i> Skill Level: {{ course.difficulty }}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center text-muted">
+                                    <i class="fa-regular fa-clock me-2"></i> {{ course.duration }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="qa" role="tabpanel">
+                        <p class="text-muted">Questions and answers will appear here.</p>
+                    </div>
+                    <div class="tab-pane fade" id="notes" role="tabpanel">
+                        <p class="text-muted">Your personal notes will appear here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="glass-card p-0 h-100 overflow-hidden d-flex flex-column">
+            <div class="p-4 border-bottom bg-light">
+                <h5 class="fw-bold mb-0">Course Content</h5>
+                <p class="text-muted small mb-0 mt-1">15 modules • {{ course.duration }}</p>
+            </div>
+            <div class="p-0 overflow-auto" style="max-height: 500px;">
+                <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item list-group-item-action p-3 bg-primary bg-opacity-10 border-start border-primary border-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1 fw-bold">1. Introduction</h6>
+                                <small class="text-muted"><i class="fa-solid fa-circle-play me-1"></i> 5:00</small>
+                            </div>
+                            <i class="fa-regular fa-circle-check text-primary"></i>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action p-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1 text-dark">2. Setting up the environment</h6>
+                                <small class="text-muted"><i class="fa-solid fa-circle-play me-1"></i> 15:30</small>
+                            </div>
+                            <i class="fa-regular fa-circle text-muted"></i>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action p-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1 text-dark">3. Core Concepts</h6>
+                                <small class="text-muted"><i class="fa-solid fa-circle-play me-1"></i> 45:00</small>
+                            </div>
+                            <i class="fa-regular fa-circle text-muted"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Simple tab switching logic for custom styling
+    document.querySelectorAll('#learningTabs button[data-bs-toggle="tab"]').forEach(function(tabEl) {
+        tabEl.addEventListener('shown.bs.tab', function (event) {
+            // Remove active styles from all
+            document.querySelectorAll('#learningTabs button').forEach(function(btn) {
+                btn.classList.remove('text-dark', 'border-bottom', 'border-primary', 'border-3');
+                btn.classList.add('text-muted');
+            });
+            // Add active styles to current
+            event.target.classList.remove('text-muted');
+            event.target.classList.add('text-dark', 'border-bottom', 'border-primary', 'border-3');
+        });
+    });
+</script>
+{% endblock %}

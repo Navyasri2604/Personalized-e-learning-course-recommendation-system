@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - AI LearnHub{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Welcome, <span class="text-gradient">{{ user.first_name|default:user.username }}</span>!</h2>
+    <a href="{% url 'profile' %}" class="btn btn-outline-custom"><i class="fa-solid fa-gear me-1"></i> Profile Setup</a>
+</div>
+
+<!-- Stats Row -->
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="glass-card stat-card h-100">
+            <i class="fa-solid fa-layer-group stat-icon text-primary"></i>
+            <h5 class="text-muted">Total Courses</h5>
+            <div class="stat-value">{{ total_courses }}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="glass-card stat-card h-100">
+            <i class="fa-solid fa-bookmark stat-icon text-warning"></i>
+            <h5 class="text-muted">Saved Courses</h5>
+            <div class="stat-value">{{ saved_count }}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="glass-card stat-card h-100">
+            <i class="fa-solid fa-trophy stat-icon text-success"></i>
+            <h5 class="text-muted">Completed</h5>
+            <div class="stat-value">{{ progress_count }}</div>
+        </div>
+    </div>
+</div>
+
+<!-- Recommendations Preview -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold"><i class="fa-solid fa-wand-magic-sparkles text-warning me-2"></i>Top Picks for You</h3>
+    <a href="{% url 'recommendations' %}" class="text-decoration-none fw-bold">View All <i class="fa-solid fa-arrow-right ms-1"></i></a>
+</div>
+
+{% if not user.career_goal %}
+    <div class="alert alert-info shadow-sm border-0 rounded-3">
+        <i class="fa-solid fa-circle-info me-2"></i> Update your <a href="{% url 'profile' %}" class="alert-link">profile</a> with your skills and career goals to get personalized recommendations!
+    </div>
+{% endif %}
+
+<div class="row g-4">
+    {% for course in recommendations %}
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm rounded-3">
+                <div class="card-body">
+                    <span class="badge badge-difficulty-{{ course.difficulty }} mb-2">{{ course.difficulty }}</span>
+                    <h5 class="card-title fw-bold text-truncate" title="{{ course.course_name }}">{{ course.course_name }}</h5>
+                    <p class="card-text text-muted small"><i class="fa-solid fa-building-columns me-1"></i> {{ course.university }}</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="text-warning fw-bold"><i class="fa-solid fa-star"></i> {{ course.rating }}</span>
+                        <a href="{% url 'course_detail' course.pk %}" class="btn btn-sm btn-outline-custom">Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12 text-center py-5">
+            <p class="text-muted mb-0">No recommendations available yet.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
