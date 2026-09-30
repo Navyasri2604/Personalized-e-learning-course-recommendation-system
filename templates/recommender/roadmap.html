@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Career Roadmap - AI LearnHub{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold"><i class="fa-solid fa-map-location-dot me-2 text-primary"></i>Career Roadmap</h2>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        {% if goal %}
+            <div class="glass-card p-5">
+                <div class="text-center mb-5">
+                    <h3 class="fw-bold text-gradient">Roadmap for: {{ goal }}</h3>
+                    <p class="text-muted">Follow these steps sequentially to achieve your career goal.</p>
+                </div>
+                
+                <div class="position-relative mx-auto" style="max-width: 800px;">
+                    <!-- Vertical Line -->
+                    <div class="position-absolute h-100" style="left: 50%; width: 4px; background: var(--primary); transform: translateX(-50%); opacity: 0.2; z-index: 0;"></div>
+                    
+                    {% for step in roadmap %}
+                        <div class="row align-items-center mb-5 position-relative z-1">
+                            {% if forloop.counter|divisibleby:2 %}
+                                <!-- Right side -->
+                                <div class="col-5 text-end pe-4">
+                                    <h4 class="fw-bold">{{ step.title }}</h4>
+                                    <p class="text-muted mb-0">{{ step.desc }}</p>
+                                </div>
+                                <div class="col-2 text-center">
+                                    <div class="d-inline-flex justify-content-center align-items-center rounded-circle text-white fw-bold shadow" style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary), var(--accent));">
+                                        {{ step.step }}
+                                    </div>
+                                </div>
+                                <div class="col-5"></div>
+                            {% else %}
+                                <!-- Left side -->
+                                <div class="col-5"></div>
+                                <div class="col-2 text-center">
+                                    <div class="d-inline-flex justify-content-center align-items-center rounded-circle text-white fw-bold shadow" style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary), var(--accent));">
+                                        {{ step.step }}
+                                    </div>
+                                </div>
+                                <div class="col-5 ps-4">
+                                    <h4 class="fw-bold">{{ step.title }}</h4>
+                                    <p class="text-muted mb-0">{{ step.desc }}</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="text-center mt-5 pt-4 border-top">
+                    <a href="{% url 'recommendations' %}" class="btn btn-primary-custom btn-lg">View Recommended Courses for this Roadmap</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="glass-card p-5 text-center">
+                <i class="fa-solid fa-road-barrier fa-3x text-muted mb-3"></i>
+                <h3 class="fw-bold">No Career Goal Set</h3>
+                <p class="text-muted">Please set a career goal in your profile to generate a customized roadmap.</p>
+                <a href="{% url 'profile' %}" class="btn btn-primary-custom mt-3">Set Career Goal</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

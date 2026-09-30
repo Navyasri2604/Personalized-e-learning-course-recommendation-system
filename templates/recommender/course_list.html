@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Course Catalog - AI LearnHub{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold"><i class="fa-solid fa-book-open me-2 text-primary"></i>Course Catalog</h2>
+</div>
+
+<div class="card border-0 shadow-sm rounded-3 mb-5">
+    <div class="card-body">
+        <form method="get" class="d-flex gap-2">
+            <input type="text" name="q" class="form-control form-control-lg" placeholder="Search by course name, skill, or category..." value="{{ query }}">
+            <button type="submit" class="btn btn-primary-custom px-4"><i class="fa-solid fa-search"></i> Search</button>
+        </form>
+    </div>
+</div>
+
+<div class="row g-4">
+    {% for course in courses %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm rounded-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="badge bg-primary bg-opacity-10 text-primary">{{ course.category }}</span>
+                        <span class="badge badge-difficulty-{{ course.difficulty }}">{{ course.difficulty }}</span>
+                    </div>
+                    <h5 class="card-title fw-bold">{{ course.course_name }}</h5>
+                    <p class="card-text text-muted small"><i class="fa-solid fa-building-columns me-1"></i> {{ course.university }}</p>
+                    <p class="card-text small text-truncate">{{ course.description }}</p>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                        <span class="text-warning fw-bold"><i class="fa-solid fa-star"></i> {{ course.rating }}</span>
+                        <span><i class="fa-regular fa-clock me-1 text-muted"></i> {{ course.duration }}</span>
+                        <a href="{% url 'course_detail' course.pk %}" class="btn btn-sm btn-outline-custom">View Course</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12 text-center py-5">
+            <i class="fa-solid fa-magnifying-glass fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">No courses found matching your criteria.</h4>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
