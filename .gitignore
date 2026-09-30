@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .venv/
 venv/
 __pycache__/
@@ -7,4 +8,30 @@ __pycache__/
 db.sqlite3
 .env
 staticfiles/
+=======
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+
+# Environment variables
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+>>>>>>> 39f7ac89b9db9d0b55d5df4f4b880cc75113b0c9
 Thumbs.db
