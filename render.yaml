@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: personalized-elearning
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn elearning_system.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: RENDER
+        value: "true"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true

@@ -6,6 +6,9 @@ Personalized E-Learning Course Recommendation System
 
 import os
 
+# Detect if running on Render
+IS_RENDER = os.getenv('RENDER', False)
+
 
 # ============================================================
 # BASE DIRECTORY
@@ -23,7 +26,8 @@ SECRET_KEY = os.getenv(
     'wp5yy9d4=k%6q@lg)gw+@x!1+tke81-e#bpo*k7vm8a-#cs517'
 )
 
-DEBUG = True
+# In production (Render), DEBUG is False. Locally it's True.
+DEBUG = not IS_RENDER
 
 
 # ============================================================
@@ -34,7 +38,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'testserver',
-    'personalized-e-learning-course-26up.onrender.com',
+    '.onrender.com',  # Covers all Render subdomains
 ]
 
 
@@ -43,7 +47,7 @@ ALLOWED_HOSTS = [
 # ============================================================
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://personalized-e-learning-course-26up.onrender.com',
+    'https://*.onrender.com',
 ]
 
 
@@ -62,6 +66,9 @@ INSTALLED_APPS = [
     'recommender',
 ]
 
+if IS_RENDER:
+    INSTALLED_APPS = ['whitenoise.runserver_nostatic'] + INSTALLED_APPS
+
 
 # ============================================================
 # CUSTOM USER MODEL
@@ -76,6 +83,7 @@ AUTH_USER_MODEL = 'recommender.UserProfile'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -187,10 +195,14 @@ USE_TZ = True
 # ============================================================
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+# WhiteNoise compressed static files storage for production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # ============================================================
