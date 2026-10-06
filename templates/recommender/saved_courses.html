@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Saved Courses - AI LearnHub{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold"><i class="fa-solid fa-bookmark me-2 text-warning"></i>Saved Courses</h2>
+</div>
+
+<div class="row g-4">
+    {% for item in saved %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm rounded-3">
+                <div class="card-body">
+                    <span class="badge badge-difficulty-{{ item.course.difficulty }} mb-2">{{ item.course.difficulty }}</span>
+                    <h5 class="card-title fw-bold">{{ item.course.course_name }}</h5>
+                    <p class="card-text text-muted small"><i class="fa-solid fa-building-columns me-1"></i> {{ item.course.university }}</p>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                        <a href="{% url 'remove_saved_course' item.course.pk %}" class="btn btn-sm btn-outline-danger" title="Remove"><i class="fa-solid fa-trash"></i></a>
+                        <a href="{% url 'course_detail' item.course.pk %}" class="btn btn-sm btn-primary-custom">View Course</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="glass-card p-5 d-inline-block">
+                <i class="fa-regular fa-bookmark fa-3x text-muted mb-3"></i>
+                <h4 class="fw-bold">No Saved Courses</h4>
+                <p class="text-muted">You haven't saved any courses yet.</p>
+                <a href="{% url 'course_list' %}" class="btn btn-primary-custom mt-3">Browse Courses</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
